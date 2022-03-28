@@ -1,7 +1,10 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
 spring:
   datasource:
-    name: test  #数据库名
-    url: jdbc:mysql://localhost:3306/test #url
-    username: root  #用户名
-    password: 123456  #密码
-    driver-class-name: com.mysql.jdbc.Driver  #数据库链接驱动
+    username: admin
+    password: 12345678
+    url: jdbc:mysql://database-1.cbglttlgq40x.us-east-1.rds.amazonaws.com:3306/test
+    driver-class-name: com.mysql.cj.jdbc.Driver
