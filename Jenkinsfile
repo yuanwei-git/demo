@@ -34,6 +34,7 @@ pipeline {
         stage('ssh') {
             steps{
                 echo '开始构建image push.......'
+                withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
                 //调用远程的docker进行打包
                 sh 'docker -H tcp://107.21.74.94:2375 build -t ${IMAGE_NAME}:${VERSION_ID} .'
                //调用远程的docker进行镜像推送。仓库docker.vonedao.com需要登录账户密码，可以拷贝配置过来。后面有说明
@@ -51,6 +52,7 @@ pipeline {
                     sudo docker tag ${new_image_id} ${IMAGE_ADDR}:${VERSION_ID}
                     sudo docker push ${IMAGE_ADDR}:${VERSION_ID}
                 ''' */
+                }
             }
         }
         stage('run') {
