@@ -33,7 +33,12 @@ pipeline {
         // 创建目录(如果不存在)，并把jar文件上传到该目录下
         stage('ssh') {
             steps{
-                echo 'push jar to target server'
+            echo '开始执行打包操作.......'
+                //调用远程的docker进行打包
+                sh 'docker -H tcp://192.168.31.181:2375 build -t ${IMAGE_NAME}:${VERSION_ID} .'
+               //调用远程的docker进行镜像推送。仓库docker.vonedao.com需要登录账户密码，可以拷贝配置过来。后面有说明
+                sh 'docker -H tcp://192.168.31.181:2375 push ${IMAGE_NAME}:${VERSION_ID}'
+                /* echo 'push jar to target server'
                 sh '''
                     ole_image_id=`docker images|grep ${IMAGE_NAME}|grep ${VERSION_ID}|awk '{print $3}'`
                     if [[ -n "${ole_image_id}" ]]; then
@@ -45,11 +50,15 @@ pipeline {
                     new_image_id=`docker images|grep ${IMAGE_NAME}|grep ${VERSION_ID}|awk '{print $3}'`
                     sudo docker tag ${new_image_id} ${IMAGE_ADDR}:${VERSION_ID}
                     sudo docker push ${IMAGE_ADDR}:${VERSION_ID}
-                '''
+                ''' */
             }
         }
         stage('run') {
-            // 在应用服务器节点 test
+             steps {
+                        echo 'pull image and docker run'
+                    }
+
+            /* // 在应用服务器节点 test
             agent {
                 node {
                     label 'test'
@@ -86,7 +95,7 @@ pipeline {
                         sudo docker run --name "${PROJECT_NAME}_${VERSION_ID}" -p 9001:8081 -d ${IMAGE_ADDR}:${VERSION_ID}
                     '''
                 }
-            }
+            } */
         }
     }
 }
