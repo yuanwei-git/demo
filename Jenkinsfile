@@ -18,14 +18,14 @@ pipeline {
     stages {
         stage('pullCode'){
             steps{
-                echo '开始拉代码.......'
+                echo 'pull code..............................'
                 //git branch: "${BRANCH}", credentialsId: '1001', url: "${GIT_PROJECT_ADDR}"
                 checkout scm
             }
         }
         stage('Build') {
             steps{
-                echo '开始执行打包操作.......'
+                echo 'build..............................'
                 // 在有Jenkinsfile同一个目录下（项目的根目录下）
                 bat 'mvn clean package -Dmaven.test.skip=true'
             }
@@ -33,7 +33,7 @@ pipeline {
         // 创建目录(如果不存在)，并把jar文件上传到该目录下
         stage('ssh') {
             steps{
-                echo '开始构建image push.......'
+                echo 'build image push.......................'
                 withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
                 //调用远程的docker进行打包
                 bat 'docker -H tcp://107.21.74.94:2375 build -t ${IMAGE_NAME}:${VERSION_ID} .'
