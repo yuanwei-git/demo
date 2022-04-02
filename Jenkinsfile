@@ -39,7 +39,8 @@ pipeline {
                 //调用远程的docker进行打包
                 bat 'docker build -t springboot-test:12345 .'
                //调用远程的docker进行镜像推送。仓库docker.vonedao.com需要登录账户密码，可以拷贝配置过来。后面有说明
-                bat 'docker -H tcp://107.21.74.94:2375 push springboot-test:12345'
+                bat 'docker push 107.21.74.94:5000/springboot-test:12345'
+                //bat 'docker -H tcp://107.21.74.94:2375 push springboot-test:12345'
                 /* echo 'push jar to target server'
                 sh '''
                     ole_image_id=`docker images|grep ${IMAGE_NAME}|grep ${VERSION_ID}|awk '{print $3}'`
