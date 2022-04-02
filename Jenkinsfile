@@ -36,7 +36,7 @@ pipeline {
                 echo 'build image push.......................'
                 withEnv(['JENKINS_NODE_COOKIE=dontKillMe']) {
                 //调用远程的docker进行打包
-                bat 'docker -H tcp://107.21.74.94:2375 build -t ${IMAGE_NAME}:${VERSION_ID} .'
+                bat 'docker build -t ${IMAGE_NAME}:${VERSION_ID} .'
                //调用远程的docker进行镜像推送。仓库docker.vonedao.com需要登录账户密码，可以拷贝配置过来。后面有说明
                 bat 'docker -H tcp://107.21.74.94:2375 push ${IMAGE_NAME}:${VERSION_ID}'
                 /* echo 'push jar to target server'
