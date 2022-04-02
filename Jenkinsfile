@@ -1,6 +1,7 @@
 // docker集成docker部署
 pipeline {
-    agent {label 'master'}
+    //agent {label 'master'}
+    agent any
     tools{
         maven 'maven'
     }
